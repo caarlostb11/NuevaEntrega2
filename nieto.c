@@ -43,44 +43,60 @@ void envia_mensaje(const char *fifo, Mensaje mensaje){
    // umask(0);
    // unlink(fifo);
     TPrint("1- llego");
-   // mkfifo(fifo, 0666);
+    //mkfifo(fifo, 0666);
     TPrint("2- llego");
-    FILE *fifofd = fopen("myfifo", "w");
-    TPrint("3- llego");
 
-    if (fifofd == NULL)
-    {
-        perror("Error en el open");
+
+     // Crear el FIFO si no existe
+     TPrint("3- llego");
+    // Abrir el FIFO en modo escritura
+    int fd = open(fifo, O_WRONLY);
+    TPrint("4- llego");
+    if (fd == -1) {
+        perror("open");
         exit(EXIT_FAILURE);
     }
 
-    fwrite(&mensaje, sizeof(Mensaje), 1, fifofd); //Escribir msg en el FILE
-
+       TPrint("5- llego");
+    
+    // Escribir la estructura en el FIFO
+    ssize_t bytes_escritos = write(fd, &mensaje, sizeof(mensaje));
+    if (bytes_escritos == -1) {
+        perror("write");
+        exit(EXIT_FAILURE);
+    }
+    
+    // Cerrar el FIFO
+    close(fd);
 
     printf("\n**********MENSAJE ENVIADO**********");
-    imprimir_mensaje(&mensaje);
-    fclose(fifofd); // Cerrar el archivo FIFO
+   
 
 
 }
 
 void recepcion_mensaje(const char *fifo){
+   
+    Mensaje mensaje;
+    int fd = open(fifo, O_RDONLY);
 
-    Mensaje mensaje_recibido;
-    FILE *fifofd = fopen("myfifo", "r");
-
-    if (fifofd == NULL)
-    {
-        perror("Error en el open");
-        exit(EXIT_FAILURE);
+    if (fd == -1) {
+        perror("open");
+        exit(1);
     }
 
-    fread(&mensaje_recibido, sizeof(Mensaje), 1, fifofd); //Escribir msg en el FILE
+    if (read(fd, &mensaje, sizeof(Mensaje)) == -1) {
+        perror("read");
+        exit(1);
+    }
 
+    printf("Mensaje recibido:\n");
+    printf("Padre: %d\n", mensaje.padre);
+    printf("Nieto: %d\n", mensaje.nieto);
+    printf("Hijo: %d\n", mensaje.hijo);
+    printf("Destino: %d\n", mensaje.destino);
 
-    printf("\n**********MENSAJE RECIBIDO**********");
-    imprimir_mensaje(&mensaje_recibido);
-    fclose(fifofd); // Cerrar el archivo FIFO
+    close(fd);
 
 
 }

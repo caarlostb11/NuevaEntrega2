@@ -12,6 +12,25 @@
 static char tabs[N_TABS];
 
 
+pid_t Fork(void(*proceso)()){
+    pid_t pidFork = fork();
+    if(pidFork < 0){
+     printf("ERROR\n");
+    exit(EXIT_FAILURE);
+ }else if (pidFork == 0){
+	TPrint_int("Soy el Hijo y mi pid es: ",getpid());
+	proceso();
+    exit(EXIT_SUCCESS);
+ }
+    return pidFork;
+
+}
+
+
+
+
+
+
 void TInit(int ntabs, int id)
 	{
     int i;

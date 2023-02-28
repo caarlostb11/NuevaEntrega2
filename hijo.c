@@ -5,26 +5,28 @@
 void crear_nietos1();
 void crear_nietos2();
 
-void main_hijo1(pid_t pid){
+void *main_hijo1(){
+    //pid_t pid_hijo1 = getpid();
+    TPrint("main_hijo1");
+    //crear_nietos1();
 
-    crear_nietos1();
-    printf("\n\n ****** ACTIVAR_RECEPCION_HIJO() ");
   
 
 }
 
-void main_hijo2(pid_t pid){
-    
-    TPrint("ESTOY EN MAIN_HIJO2");
-    crear_nietos2();
+void *main_hijo2(){
+   // pid_t pid_hijo2 = getpid();
+     TPrint("main_hijo2");
+    //TPrint_int("Soy el segundo hijo y mi pid es",pid_hijo2);
+   // crear_nietos2();
     
 }
-
+/*
 
 void crear_nietos1(){
      pid_t pidnieto11, pidnieto12;
     
-    pidnieto11 = fork(); // crea el primer proceso hijo
+    pidnieto11 = Fork(); // crea el primer proceso hijo
     
     if (pidnieto11 == 0) { // si es el proceso hijo
         pidnieto11= getpid();
@@ -70,7 +72,7 @@ void crear_nietos2(){
 
 void activar_recepcion_hijo(const char *fifo){
 printf("\n\n ****** ACTIVAR_RECEPCION_HIJO() ");
-      Mensaje msg_recibidoh1;
+    //  Mensaje msg_recibidoh1;
       //printf("%s",myfifo1);
      while (1)
     {
@@ -86,3 +88,4 @@ printf("\n\n ****** ACTIVAR_RECEPCION_HIJO() ");
 
 
 }
+*/

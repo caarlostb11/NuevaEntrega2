@@ -15,6 +15,7 @@
 #include <sys/types.h>
 
 
+pid_t Fork(void(*proceso)());
 void TInit(int ntabs, int id);
 void TPrint(const char *texto);
 void TPrint_int(const char *texto, int valor);

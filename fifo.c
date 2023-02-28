@@ -3,21 +3,32 @@
 #include "nieto.h"
 
 
-void crear_hijos();
+//void crear_hijos();
 int leer_terminal();
 
 int main(){
+    unlink(myfifo1);
+    umask(0); // Descubrir luego q es
+    mkfifo(myfifo1,S_IFIFO|0666);
     pid_t pid_padre = getpid();
     TPrint_int("El pid del padre es: ", pid_padre);
-
-    crear_hijos();
-
-    unlink(myfifo1);
-    //unlink(myfifo2);
-    umask(0); // Descubrir luego q es
-    mkfifo(myfifo1, 0666);
-    //mkfifo(myfifo2, S_IFIFO | 0666);
    
+    //unlink(myfifo2);
+  
+    if(getpid() == pid_padre){
+        pid_t pid_hijo1 =Fork(main_hijo1());
+            
+    }
+
+    if(getpid() == pid_padre){
+        pid_t pid_hijo2 =Fork(main_hijo2());
+    }
+
+
+    
+    //sleep(3);
+    //mkfifo(myfifo2, S_IFIFO | 0666);
+   /*
    while(1){
     //Leemos comando por terminal
     int numero_terminal;
@@ -61,10 +72,11 @@ int main(){
    
     
    
-   }
+   }*/
 
 }
 
+/*
 void crear_hijos(){
 
     pid_t pid1, pid2;
@@ -92,10 +104,10 @@ void crear_hijos(){
 
 
     // espera a que los hijos terminen
-    waitpid(pid1, NULL, 0);
-    waitpid(pid2, NULL, 0);
+    //waitpid(pid1, NULL, 0);
+    //waitpid(pid2, NULL, 0);
 
-}
+}*/
 
 int leer_terminal(){
 
