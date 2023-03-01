@@ -1,13 +1,25 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <ctype.h>
+#include <sys/types.h>
+
+#include "hijo.h"
 #include "ASlib.h"
 
 
-typedef struct {
+typedef struct Mensaje{
     pid_t padre;
     pid_t nieto;
     pid_t hijo;
     int destino;
 
 } Mensaje;
+
 const char *myfifo1;
 //const char *myfifo2;
 
