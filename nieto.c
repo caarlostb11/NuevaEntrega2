@@ -57,7 +57,9 @@ void envia_mensaje(const char *fifo, Mensaje mensaje)
     // mkfifo(fifo, 0666);
 
     int fd;
-    fd = open("tuberia_hijo1", O_WRONLY); //DE AQUÍ NO PASA EL PROGRAMA NO LO ENTIENDO JODER LAS 2 DE LA MAÑANA YA
+    TPrint("1- envia_mensaje linea 60");
+    fd = open("tuberia_hijo1", O_RDWR); //DE AQUÍ NO PASA EL PROGRAMA NO LO ENTIENDO JODER LAS 2 DE LA MAÑANA YA
+
 
     TPrint_int("********Valor de fd: ", fd);
     if (fd == -1)
@@ -75,15 +77,18 @@ void envia_mensaje(const char *fifo, Mensaje mensaje)
     }
 
     close(fd);
-
+    //TPrint_int("Bytes_escritos = ", bytes_escritos);
     printf("\n*** Mensaje enviado ***");
 }
 
 
 void recepcion_mensaje(const char *fifo)
 {
+    TPrint("Entro a recepcion mensaje");
     Mensaje mensaje;
-    int fd = open(fifo, O_RDONLY);
+    int fd = open(fifo, O_RDWR);
+    TPrint_string("Fifo en recp msg: ", fifo);
+    TPrint_int("Fifo en recp msg: ", fd);
 
     if (fd == -1)
     {
@@ -91,12 +96,15 @@ void recepcion_mensaje(const char *fifo)
         exit(1);
     }
 
+    TPrint("Empiezo el read");
+    
     if (read(fd, &mensaje, sizeof(Mensaje)) == -1)
     {
         perror("read");
         exit(1);
     }
 
+    TPrint("Termino el read");
     printf("\n*** Mensaje recibido: ***\n");
     printf("Padre: %d\n", mensaje.padre);
     printf("Nieto: %d\n", mensaje.nieto);
@@ -105,6 +113,7 @@ void recepcion_mensaje(const char *fifo)
 
     close(fd);
 }
+
 
 
 void compruebo_fifo(const char *fifo)

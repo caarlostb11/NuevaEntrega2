@@ -70,8 +70,8 @@ int main()
             compruebo_fifo(myfifo1);
 
             // Abrir el FIFO en modo escritura
+            //activar_recepcion_hijo(myfifo1);
             envia_mensaje(myfifo1, mensaje_a_enviar);
-            activar_recepcion_hijo(myfifo1);
             recepcion_mensaje(myfifo1);
 
             break;
